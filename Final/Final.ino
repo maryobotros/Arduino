@@ -1,10 +1,6 @@
 #include <Servo.h>
 Servo myServo;
 
-int sensorValue;
-int sensorLow = 1023;
-int sensorHigh = 0;
-
 const int piezo = A1;
 const int switchPin = 2;
 const int yellowLed = 3;
@@ -13,6 +9,7 @@ const int redLed = 5;
 
 int knockVal;
 int switchVal;
+int sensorValue;
 
 int potVal;
 int angle;
@@ -29,9 +26,13 @@ void setup() {
   pinMode(greenLed, OUTPUT);
   pinMode(switchPin, INPUT);
 
-  Serial.begin(9600); // Initialize serial communication with computer 
-  digitalWrite(yellowLed, HIGH); // Turn on the green led
-  myServo.write(0); // Move the servo to the locked position 
+  // Initialize serial communication with computer 
+  Serial.begin(9600); 
+  // Turn on the yellow led
+  digitalWrite(yellowLed, HIGH); 
+  // Move the servo to the open blinds position 
+  myServo.write(0); 
+  // Output statement
   Serial.println("Blinds are CLOSED"); // right-close, left-open
 
   sensorValue = analogRead(A0); 
@@ -40,11 +41,15 @@ void setup() {
 void loop() {
   // Read the value of vibration from the piezo and store it in knockVal
   knockVal = analogRead(piezo);
+  
+  // Read the value of the switch and store it in switchVal
   switchVal = digitalRead(switchPin);
 
-  
+  // Read the value of the phototransistor and store it in potValue
   sensorValue = analogRead(A0);
   potVal = analogRead(sensorValue);
+
+  // Print the light value 
   Serial.print("Light value: ");
   Serial.println(potVal);
 
@@ -62,14 +67,17 @@ void loop() {
     digitalWrite(redLed, LOW);
     digitalWrite(yellowLed, LOW);
 
-    // Output statement
+    // Output statement indicating blinds are open
     Serial.println("Blinds are OPEN");
 
+    // Print the knock value 
     Serial.print("Knock value: ");
     Serial.println(knockVal);
     delay(100);
-  
-    if(knockVal >= 50){
+
+    // If a vibration is sensed
+    if(knockVal >= 20){
+      // Flash red led, output alert,  and close blinds, until the switch deactivates the alarm
       while(switchVal != HIGH){
         Serial.println("!!!!!!!!!!INTRUDER ALERT!!!!!!!!!!");
         myServo.write(0);
@@ -97,14 +105,17 @@ void loop() {
     digitalWrite(redLed, LOW);
     digitalWrite(greenLed, LOW);
 
-    // Output statement
+    // Output statement indicating blinds are closed
     Serial.println("Blinds are CLOSED");
-    
+
+    // Print the knock value 
     Serial.print("Knock value: ");
     Serial.println(knockVal);
     delay(100);
-    
-    if(knockVal >= 50){
+
+    // If a vibration is sensed
+    if(knockVal >= 20){
+      // Flash red led, output alert,  and close blinds, until the switch deactivates the alarm
       while(switchVal != HIGH){
         Serial.println("!!!!!!!!!!INTRUDER ALERT!!!!!!!!!!");
         myServo.write(0);
