@@ -1,6 +1,7 @@
 #include <Servo.h>
 Servo myServo;
 
+const int lightSensor = A0;
 const int piezo = A1;
 const int switchPin = 2;
 const int yellowLed = 3;
@@ -9,12 +10,10 @@ const int redLed = 5;
 
 int knockVal;
 int switchVal;
-int sensorValue;
+int lightVal;
 
-int potVal;
+int potVal; // !!!!!!FIXME!!!!!!
 int angle;
-
-boolean isOpen;
 
 void setup() {
   // Attatch servo to pin 9
@@ -35,7 +34,7 @@ void setup() {
   // Output statement
   Serial.println("Blinds are CLOSED"); // right-close, left-open
 
-  sensorValue = analogRead(A0); 
+  lightVal = analogRead(lightSensor); 
 }
 
 void loop() {
@@ -46,15 +45,14 @@ void loop() {
   switchVal = digitalRead(switchPin);
 
   // Read the value of the phototransistor and store it in potValue
-  sensorValue = analogRead(A0);
-  potVal = analogRead(sensorValue);
+  lightVal = analogRead(lightSensor); 
 
   // Print the light value 
   Serial.print("Light value: ");
-  Serial.println(potVal);
+  Serial.println(lightVal);
 
   // If it is bright outside 
-  if(potVal > 600){
+  if(lightVal > 600){
     // Open the blinds 
     angle = 180;
     Serial.print("Angle: ");
@@ -76,7 +74,7 @@ void loop() {
     delay(100);
 
     // If a vibration is sensed
-    if(knockVal >= 20){
+    if(knockVal >= 10){
       // Flash red led, output alert,  and close blinds, until the switch deactivates the alarm
       while(switchVal != HIGH){
         Serial.println("!!!!!!!!!!INTRUDER ALERT!!!!!!!!!!");
@@ -91,7 +89,7 @@ void loop() {
     }
   }
 
-  // If it is dim outside
+  // Else if it is dim outside
   else{
     // Close the blinds
     angle = 0;
@@ -114,7 +112,7 @@ void loop() {
     delay(100);
 
     // If a vibration is sensed
-    if(knockVal >= 20){
+    if(knockVal >= 10){
       // Flash red led, output alert,  and close blinds, until the switch deactivates the alarm
       while(switchVal != HIGH){
         Serial.println("!!!!!!!!!!INTRUDER ALERT!!!!!!!!!!");
