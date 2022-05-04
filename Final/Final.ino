@@ -70,20 +70,7 @@ void loop() {
     Serial.println(knockVal);
     delay(100);
 
-    // If a vibration is sensed
-    if(knockVal >= 10){
-      // Flash red led, output alert,  and close blinds, until the switch deactivates the alarm
-      while(switchVal != HIGH){
-        Serial.println("!!!!!!!!!!INTRUDER ALERT!!!!!!!!!!");
-        myServo.write(0);
-        digitalWrite(redLed, HIGH);
-        delay(50);
-        digitalWrite(redLed, LOW);
-        delay(50);
-  
-        switchVal = digitalRead(switchPin);
-      }
-    }
+    checkForVibration(knockVal);
   }
 
   // Else if it is dim outside
@@ -108,19 +95,23 @@ void loop() {
     Serial.println(knockVal);
     delay(100);
 
-    // If a vibration is sensed
-    if(knockVal >= 10){
-      // Flash red led, output alert,  and close blinds, until the switch deactivates the alarm
-      while(switchVal != HIGH){
-        Serial.println("!!!!!!!!!!INTRUDER ALERT!!!!!!!!!!");
-        myServo.write(0);
-        digitalWrite(redLed, HIGH);
-        delay(50);
-        digitalWrite(redLed, LOW);
-        delay(50);
+    checkForVibration(knockVal);
+  }
+}
+
+void checkForVibration(int knockVal){
+  // If a vibration is sensed
+  if(knockVal >= 10){
+    // Flash red led, output alert,  and close blinds, until the switch deactivates the alarm
+    while(switchVal != HIGH){
+      Serial.println("!!!!!!!!!!INTRUDER ALERT!!!!!!!!!!");
+      myServo.write(0);
+      digitalWrite(redLed, HIGH);
+      delay(50);
+      digitalWrite(redLed, LOW);
+      delay(50);
   
-        switchVal = digitalRead(switchPin);
-      }
+      switchVal = digitalRead(switchPin);
     }
   }
 }
