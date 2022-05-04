@@ -12,7 +12,6 @@ int knockVal;
 int switchVal;
 int lightVal;
 
-int potVal; // !!!!!!FIXME!!!!!!
 int angle;
 
 void setup() {
@@ -33,8 +32,6 @@ void setup() {
   myServo.write(0); 
   // Output statement
   Serial.println("Blinds are CLOSED"); // right-close, left-open
-
-  lightVal = analogRead(lightSensor); 
 }
 
 void loop() {
