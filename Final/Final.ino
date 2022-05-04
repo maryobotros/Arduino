@@ -30,7 +30,7 @@ void setup() {
   digitalWrite(yellowLed, HIGH); 
   // Move the servo to the open blinds position 
   myServo.write(0); 
-  // Output statement
+  // Output statement indicating blinds are closed
   Serial.println("Blinds are CLOSED"); // right-close, left-open
 }
 
