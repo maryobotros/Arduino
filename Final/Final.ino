@@ -104,7 +104,7 @@ void loop() {
 // Method to check for vibration
 void checkForVibration(int knockVal){
   // If a vibration is sensed
-  if(knockVal >= 5){
+  if(knockVal >= 7){
     // Flash red led, output alert,  and close blinds, until the switch deactivates the alarm
     while(switchVal != HIGH){
       Serial.println("!!!!!!!!!!INTRUDER ALERT!!!!!!!!!!");
