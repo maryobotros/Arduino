@@ -70,6 +70,7 @@ void loop() {
     Serial.println(knockVal);
     delay(100);
 
+    // Call checkForVibration method
     checkForVibration(knockVal);
   }
 
@@ -95,6 +96,7 @@ void loop() {
     Serial.println(knockVal);
     delay(100);
 
+    // Call checkForVibration method
     checkForVibration(knockVal);
   }
 }
@@ -112,6 +114,10 @@ void checkForVibration(int knockVal){
       delay(50);
   
       switchVal = digitalRead(switchPin);
+      
+      // Yellow led should be turned back on and green led should be off
+      digitalWrite(yellowLed, HIGH);
+      digitalWrite(greenLed, LOW);
     }
   }
 }
